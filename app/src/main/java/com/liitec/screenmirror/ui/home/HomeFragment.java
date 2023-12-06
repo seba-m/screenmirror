@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
             this.stateResultData = savedInstanceState.getParcelable(STATE_RESULT_DATA);
         }
 
-        this.context = getContext();
+        this.context = container.getContext();
         assert context != null;
         this.mediaProjectionManager = (MediaProjectionManager) context.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
@@ -243,7 +243,7 @@ public class HomeFragment extends Fragment {
         final String serverHost = editTextServerHost.getText().toString();
         final String serverPassword = editTextServerPassword.getText().toString();
 
-        final Intent intent = new Intent(getContext(), ScreenCastService.class);
+        final Intent intent = new Intent(context.getApplicationContext(), ScreenCastService.class);
 
         if(stateResultCode != 0 && stateResultData != null) {
             //basura
