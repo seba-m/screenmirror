@@ -271,7 +271,7 @@ public final class ScreenCastService extends Service {
         return new NotificationCompat.Builder(this, "media_projection_channel")
                 .setContentTitle("Captura de pantalla en curso")
                 .setContentText("Capturando pantalla...")
-                .setSmallIcon(R.drawable.ic_notification_icon)
+                .setSmallIcon(R.drawable.ic_notification_liitec)
                 .build();
     }
 

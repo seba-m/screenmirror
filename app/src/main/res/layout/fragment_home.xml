@@ -20,85 +20,16 @@
             android:layout_height="wrap_content"
             android:text="Comenzar transmisión"
             android:layout_marginTop="8dp"
+            android:backgroundTint="#4c63da"
+            android:textColor="#ffffff"
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textSize="18dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/textView_protocol"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_protocol" />
-
-        <Spinner
-            android:id="@+id/spinner_protocol"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/options_protocols" />
-
-        <TextView
-            android:id="@+id/textView_server_addr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_server_ip" />
-
-        <EditText
-            android:id="@+id/editText_server_host"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="none" />
-
-        <TextView
-            android:id="@+id/textView_server_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_server_password" />
-
-        <EditText
-            android:id="@+id/editText_server_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="none" />
-
-        <TextView
-            android:id="@+id/textView_video_format"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_video_format" />
-
-
-
-        <Spinner
-            android:id="@+id/spinner_video_format"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/options_format_keys" />
-
-        <TextView
-            android:id="@+id/textView_video_resolution"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_video_resolution" />
-
-        <Spinner
-            android:id="@+id/spinner_video_resolution"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/options_resolution_keys" />
-
-        <TextView
-            android:id="@+id/textView_video_bitrate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_video_bitrate" />
-
-        <Spinner
-            android:id="@+id/spinner_video_bitrate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/options_bitrate_keys" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,6 +41,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#ff5151"
+                android:textColor="#ffffff"
+                android:padding="20dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="18dp"
                 android:text="@string/action_stop" />
 
             <Button
@@ -117,6 +53,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#5AB11B"
+                android:textColor="#ffffff"
+                android:padding="20dp"
+                android:textSize="18dp"
                 android:text="@string/action_start" />
         </LinearLayout>
 

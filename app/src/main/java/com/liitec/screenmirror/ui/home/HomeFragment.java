@@ -37,21 +37,24 @@ import java.util.Objects;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "SettingsActivity";
-
     private final int REMOTE_SERVER_PORT = 1935;
-
-    private static final String PREFERENCE_KEY = "default";
-    private static final String PREFERENCE_PROTOCOL = "protocol";
-    private static final String PREFERENCE_SERVER_HOST = "server_host";
-    private static final String PREFERENCE_SPINNER_FORMAT = "spinner_format";
-    private static final String PREFERENCE_SPINNER_RESOLUTION = "spinner_resolution";
-    private static final String PREFERENCE_SPINNER_BITRATE = "spinner_bitrate";
-
+    private static final String PREFERENCE_KEY_2 = "default_config";
+    private static final String PREFERENCE_PROTOCOL_2 = "protocol_config";
+    private static final String PREFERENCE_SERVER_HOST_2 = "server_host_config";
+    private static final String PREFERENCE_SERVER_PASSWORD_2 = "server_password_config";
+    private static final String PREFERENCE_SPINNER_FORMAT_2 = "spinner_format_config";
+    private static final String PREFERENCE_SPINNER_RESOLUTION_2 = "spinner_resolution_config";
+    private static final String PREFERENCE_SPINNER_BITRATE_2 = "spinner_bitrate_config";
     private static final String STATE_RESULT_CODE = "result_code";
     private static final String STATE_RESULT_DATA = "result_data";
 
     private static final int ACTIVITY_RESULT_REQUEST_MEDIA_PROJECTION = 300;
-
+    private String serverHost;
+    private String serverPassword;
+    private String protocol;
+    private String videoFormat;
+    private String[] videoResolution;
+    private int videoBitrate;
     private int stateResultCode;
     private Intent stateResultData;
 
@@ -61,15 +64,12 @@ public class HomeFragment extends Fragment {
     private MediaProjectionManager mediaProjectionManager;
     private ServiceConnection serviceConnection;
     private Messenger serviceMessenger;
-    private volatile boolean capturingScreen = false;
 
     private FragmentHomeBinding binding;
-    private TextView textView;
     private Button btnToggleStreaming;
     private boolean isStreaming = false;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -115,16 +115,29 @@ public class HomeFragment extends Fragment {
             }
         };
 
-        final EditText editTextServerHost = (EditText) root.findViewById(R.id.editText_server_host);
+        this.serverHost = context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_SERVER_HOST_2, "");
+        this.serverPassword = context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_SERVER_PASSWORD_2, "");
+        this.protocol = context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_PROTOCOL_2, "rtmp");
+        this.videoFormat = context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_SPINNER_FORMAT_2, "video/avc");
+        this.videoResolution = context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_SPINNER_RESOLUTION_2, "1280,720,320").split(",");
+        this.videoBitrate = Integer.parseInt(context.getSharedPreferences(PREFERENCE_KEY_2, 0).getString(PREFERENCE_SPINNER_BITRATE_2, "6144000"));
+
+        Log.e(TAG, "serverHost: " + serverHost);
+        Log.e(TAG, "serverPassword: " + serverPassword);
+        Log.e(TAG, "protocol: " + protocol);
+        Log.e(TAG, "videoFormat: " + videoFormat);
+        for ( String s : videoResolution) {
+            Log.e(TAG, "videoResolution: " + s);
+        }
+        Log.e(TAG, "videoBitrate: " + videoBitrate);
+
+
         final Button startButton = (Button) root.findViewById(R.id.button_start);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Start button clicked.");
-
-                final String serverHost = editTextServerHost.getText().toString();
-                context.getSharedPreferences(PREFERENCE_KEY, 0).edit().putString(PREFERENCE_SERVER_HOST, serverHost).apply();
                 startCaptureScreen();
             }
         });
@@ -137,16 +150,6 @@ public class HomeFragment extends Fragment {
                 stopScreenCapture();
             }
         });
-
-        editTextServerHost.setText(context.getSharedPreferences(PREFERENCE_KEY, 0).getString(PREFERENCE_SERVER_HOST, ""));
-
-        //basura
-        setSpinner(R.array.options_protocols,R.id.spinner_protocol, PREFERENCE_PROTOCOL, root);
-        setSpinner(R.array.options_format_keys, R.id.spinner_video_format, PREFERENCE_SPINNER_FORMAT, root);
-
-        //SI
-        setSpinner(R.array.options_resolution_keys,R.id.spinner_video_resolution, PREFERENCE_SPINNER_RESOLUTION, root);
-        setSpinner(R.array.options_bitrate_keys, R.id.spinner_video_bitrate, PREFERENCE_SPINNER_BITRATE, root);
 
         btnToggleStreaming = binding.btnToggleStreaming;
 
@@ -215,59 +218,19 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void setSpinner(final int textArrayOptionResId, final int textViewResId, final String preferenceId, View root) {
-        Log.d(TAG, "Setting spinner opt_id:" + textArrayOptionResId + " view_id:" + textViewResId + " pref_id:" + preferenceId);
-
-        final Spinner spinner = (Spinner) root.findViewById(textViewResId);
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(requireContext(), textArrayOptionResId, android.R.layout.simple_spinner_item);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                context.getSharedPreferences(PREFERENCE_KEY, 0).edit().putInt(preferenceId, position).apply();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                context.getSharedPreferences(PREFERENCE_KEY, 0).edit().putInt(preferenceId, 0).apply();
-            }
-        });
-        spinner.setSelection(context.getSharedPreferences(PREFERENCE_KEY, 0).getInt(preferenceId, 0));
-    }
-
     private void startService() {
-        final EditText editTextServerHost = (EditText) requireView().findViewById(R.id.editText_server_host);
-        final EditText editTextServerPassword = (EditText) requireView().findViewById(R.id.editText_server_password);
-        final String serverHost = editTextServerHost.getText().toString();
-        final String serverPassword = editTextServerPassword.getText().toString();
 
         final Intent intent = new Intent(context.getApplicationContext(), ScreenCastService.class);
 
         if(stateResultCode != 0 && stateResultData != null) {
-            //basura
-            final Spinner protocolSpinner = (Spinner) requireView().findViewById(R.id.spinner_protocol);
-            final Spinner videoFormatSpinner = (Spinner) requireView().findViewById(R.id.spinner_video_format);
 
-
-            final Spinner videoResolutionSpinner = (Spinner) requireView().findViewById(R.id.spinner_video_resolution);
-            final Spinner videoBitrateSpinner = (Spinner) requireView().findViewById(R.id.spinner_video_bitrate);
-
-            //basura
-            final String protocol = protocolSpinner.getSelectedItem().toString().toLowerCase();
-            final String videoFormat = getResources().getStringArray(R.array.options_format_values)[videoFormatSpinner.getSelectedItemPosition()];
-
-            final String[] videoResolutions = getResources().getStringArray(R.array.options_resolution_values)[videoResolutionSpinner.getSelectedItemPosition()].split(",");
-            final int screenWidth = Integer.parseInt(videoResolutions[0]);
-            final int screenHeight = Integer.parseInt(videoResolutions[1]);
-            final int screenDpi = Integer.parseInt(videoResolutions[2]);
-            final int videoBitrate = getResources().getIntArray(R.array.options_bitrate_values)[videoBitrateSpinner.getSelectedItemPosition()];
+            final int screenWidth = Integer.parseInt(videoResolution[0]);
+            final int screenHeight = Integer.parseInt(videoResolution[1]);
+            final int screenDpi = Integer.parseInt(videoResolution[2]);
 
             intent.putExtra(ExtraIntent.RESULT_CODE.toString(), stateResultCode);
             intent.putExtra(ExtraIntent.RESULT_DATA.toString(), stateResultData);
 
-            // basura
             intent.putExtra(ExtraIntent.PROTOCOL.toString(), protocol);
             intent.putExtra(ExtraIntent.VIDEO_FORMAT.toString(), videoFormat);
 
@@ -278,7 +241,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra(ExtraIntent.SCREEN_WIDTH.toString(), screenWidth);
             intent.putExtra(ExtraIntent.SCREEN_HEIGHT.toString(), screenHeight);
             intent.putExtra(ExtraIntent.SCREEN_DPI.toString(), screenDpi);
-            intent.putExtra(ExtraIntent.VIDEO_BITRATE.toString(), videoBitrate);
+            intent.putExtra(ExtraIntent.VIDEO_BITRATE.toString(),videoBitrate);
         }
 
         context.startService(intent);
