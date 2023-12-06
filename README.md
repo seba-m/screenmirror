@@ -5,6 +5,8 @@ El proyecto consta de dos partes. La parte del chasis donde lo que se busca es f
 
 La segunda parte busca que el individuo tenga accesibilidad al mundo digital como normalmente la tiene, por lo que se realizó esta implementación de Screen Mirroring que lo que busca es transmitir la imagen de su celular a una pantalla secundaria que estará ubicada a una altura que coincida con la de su cabeza. Esto se realiza por el hecho de que nuestro cliente no puede realizar movimientos pronunciados de su brazo por lo que el celular principal sería una especie de control y todas las acciones se mostrarían por la pantalla secundaria. Además al realizarse la transmisión de pantalla a una página web facilita al supervisor del cliente su trabajo ya que simplemente con el enlace de la transmisión se podría acceder a la transmisión y así monitorear tanto actividades recreativas como actividades educativas.
 
+## Presentación realizada en clases
+Enlace a la [presentacion](https://www.canva.com/design/DAF0Ky5YVLI/21FboE57nHean24qXfRu3A/edit?utm_content=DAF0Ky5YVLI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) realizada en canvas y presentada en clases.
 
 ## Capturas de la aplicación 
 
