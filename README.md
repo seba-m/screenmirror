@@ -1,3 +1,9 @@
+## Proyecto realizado por
+- Sebastian Morgado
+- Francisco Adaros
+- Roberto Contreras
+- Antony Rodriguez
+
 ## Motivation
 
 Este proyecto forma parte de un proyecto en colaboración con Ingeniería Mecánica de la Universidad de La Serena y LIITEC de ayuda comunitaria con el objetivo de mejorar la calidad de vida a un joven con dificultades motrices
