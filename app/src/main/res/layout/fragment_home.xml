@@ -1,0 +1,125 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.liitec.screenmirror.ui.home.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btnToggleStreaming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comenzar transmisión"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/textView_protocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_protocol" />
+
+        <Spinner
+            android:id="@+id/spinner_protocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/options_protocols" />
+
+        <TextView
+            android:id="@+id/textView_server_addr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_server_ip" />
+
+        <EditText
+            android:id="@+id/editText_server_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="none" />
+
+        <TextView
+            android:id="@+id/textView_server_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_server_password" />
+
+        <EditText
+            android:id="@+id/editText_server_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="none" />
+
+        <TextView
+            android:id="@+id/textView_video_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_video_format" />
+
+
+
+        <Spinner
+            android:id="@+id/spinner_video_format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/options_format_keys" />
+
+        <TextView
+            android:id="@+id/textView_video_resolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_video_resolution" />
+
+        <Spinner
+            android:id="@+id/spinner_video_resolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/options_resolution_keys" />
+
+        <TextView
+            android:id="@+id/textView_video_bitrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_video_bitrate" />
+
+        <Spinner
+            android:id="@+id/spinner_video_bitrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/options_bitrate_keys" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_stop" />
+
+            <Button
+                android:id="@+id/button_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_start" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
