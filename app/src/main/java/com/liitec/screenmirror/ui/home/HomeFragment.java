@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.liitec.screenmirror.R;
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment {
     private boolean isStreaming = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        boolean canStart = false;
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -131,48 +132,39 @@ public class HomeFragment extends Fragment {
         }
         Log.e(TAG, "videoBitrate: " + videoBitrate);
 
-
-        final Button startButton = (Button) root.findViewById(R.id.button_start);
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Start button clicked.");
-                startCaptureScreen();
-            }
-        });
-
-        final Button stopButton  = (Button) root.findViewById(R.id.button_stop);
-        stopButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                stopScreenCapture();
-            }
-        });
-
         btnToggleStreaming = binding.btnToggleStreaming;
+        btnToggleStreaming.setOnClickListener(v -> toggleStreaming(v));
 
-        // Observa el estado de transmisión y actualiza el botón y el texto en consecuencia
-        btnToggleStreaming.setOnClickListener(v -> toggleStreaming());
         return root;
     }
 
-    private void toggleStreaming() {
+    private void toggleStreaming(View v) {
+        if (this.serverHost.isEmpty() || this.serverPassword.isEmpty()) {
+            btnToggleStreaming.setText("Leyendo configuración...");
+            btnToggleStreaming.setBackgroundColor(ContextCompat.getColor(context,R.color.colorDisabled));
+            return;
+        }
+
+
         if (isStreaming) {
             // Detener transmisión
             btnToggleStreaming.setText("Comenzar transmisión");
+            btnToggleStreaming.setBackgroundColor(ContextCompat.getColor(context,R.color.colorStart));
             isStreaming = false;
             // Imprimir en el log
             System.out.println("Deteniendo transmisión");
+            stopScreenCapture();
         } else {
             // Comenzar transmisión
             btnToggleStreaming.setText("Dejar de transmitir");
+            btnToggleStreaming.setBackgroundColor(ContextCompat.getColor(context,R.color.colorStop));
             isStreaming = true;
             // Imprimir en el log
             System.out.println("Comenzando transmisión");
+            startCaptureScreen();
         }
     }
+
 
     @Override
     public void onDestroyView() {
